@@ -1,0 +1,14 @@
+2026-09-08 22:11:17,267 | INFO | hr_assistant.vector_store | Checking if vector store exists at D:\Workshop\practice-rag\data\basic-rag\faiss_index
+2026-09-08 22:11:17,268 | INFO | hr_assistant.pipeline | Vector store already exists. Loading from disk...
+2026-09-08 22:11:17,268 | INFO | hr_assistant.embeddings | Initializing embedding model jina-embeddings-v2-base-en
+2026-09-08 22:11:17,269 | INFO | hr_assistant.vector_store | Loading vector store from D:\Workshop\practice-rag\data\basic-rag\faiss_index
+2026-09-08 22:11:17,273 | INFO | faiss.loader | Loading faiss with AVX2 support.
+2026-09-08 22:11:17,274 | INFO | faiss.loader | Could not load library with AVX2 support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_avx2'")
+2026-09-08 22:11:17,280 | INFO | faiss.loader | Loading faiss.
+2026-09-08 22:11:17,321 | INFO | faiss.loader | Successfully loaded faiss.
+2026-09-08 22:11:17,335 | INFO | hr_assistant.vector_store | Creating retriever with top 3 matches.
+2026-09-08 22:11:17,335 | INFO | hr_assistant.llm | Initializing LLM model openai/gpt-oss-20b
+2026-09-08 22:11:17,546 | INFO | hr_assistant.agent | Creating HR agent with metadata={'lc_versions': {'langchain-core': '1.6.2', 'langchain': '1.4.0'}} profile={'name': 'GPT OSS 20B', 'release_date': '2025-08-05', 'last_updated': '2026-05-27', 'open_weights': True, 'max_input_tokens': 131072, 'max_output_tokens': 65536, 'text_inputs': True, 'image_inputs': False, 'audio_inputs': False, 'video_inputs': False, 'text_outputs': True, 'image_outputs': False, 'audio_outputs': False, 'video_outputs': False, 'reasoning_output': True, 'tool_calling': True, 'structured_output': True, 'attachment': False, 'temperature': True} client=<groq.resources.chat.completions.Completions object at 0x00000173783F8EC0> async_client=<groq.resources.chat.completions.AsyncCompletions object at 0x00000173783F9BE0> model_name='openai/gpt-oss-20b' temperature=0.3 model_kwargs={} groq_api_key=SecretStr('**********') and [StructuredTool(name='search_hr_policy', description='Search the HR policy document for relevant information based on the query.\nThis tool is used by the RAG agent to retrieve information from the HR policy document.', args_schema=<class 'langchain_core.utils.pydantic.search_hr_policy'>, func=<function create_search_tool.<locals>.search_hr_policy at 0x000001737839C360>)].
+2026-09-08 22:11:17,553 | INFO | hr_assistant.agent | HR agent created successfully.
+2026-09-08 22:11:17,553 | INFO | hr_assistant.pipeline | HR assistant built successfully and ready to answer questions.
