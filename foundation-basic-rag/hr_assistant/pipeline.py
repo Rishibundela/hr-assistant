@@ -12,6 +12,7 @@ from .vector_store import (
     vector_store_exists
 )
 from .logger import get_logger
+from .guardrails import REFUSAL_MESSAGE, check_input_safety, check_output_safety
 
 logger = get_logger(__name__)
 
@@ -42,8 +43,17 @@ def build_hr_assistant(file_path = settings.DATA_FILE_PATH):
 
 def ask_assistant(agent, question: str) -> str:
     """Ask the HR assistant a question and return the answer."""
+    # Check the safety of the user's question
+    is_safe, reason = check_input_safety(question)
+    if not is_safe:
+        return REFUSAL_MESSAGE
+
     logger.info(f"User Question: {question}")
     response = agent.invoke({"messages": [{"role": "user", "content": question}]})
     answer = response["messages"][-1].content
+    # Check the safety of the assistant's answer
+    is_safe, reason = check_output_safety(answer)
+    if not is_safe:
+        return REFUSAL_MESSAGE
     logger.info(f"Assistant Response: {answer}")
     return answer

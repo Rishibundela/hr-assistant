@@ -17,6 +17,8 @@ class Settings:
     GROQ_API_KEY = os.getenv("GROQ_API_KEY","")
     # Emdedding api key
     JINA_API_KEY = os.getenv("JINA_API_KEY")
+    # Guard model
+    Guard_MODEL_NAME = os.getenv("GUARD_MODEL_NAME", "openai/gpt-oss-safeguard-20b")
     # Data file path
     DATA_FILE_PATH = BASE_DIR / "data" / "basic-rag" / "hr_policy.txt"
     # vector store path
