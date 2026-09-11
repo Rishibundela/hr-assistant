@@ -1,0 +1,14 @@
+2026-09-11 20:32:49,263 | INFO | hr_assistant.config | API keys are set.
+2026-09-11 20:32:49,263 | INFO | hr_assistant.config | LangSmith tracing is enabled. Checking for required LangSmith environment variables...
+2026-09-11 20:32:49,264 | INFO | hr_assistant.config | LangSmith tracing is enabled for project {cls.LANGSMITH_PROJECT} at {cls.LANGSMITH_ENDPOINT}.
+2026-09-11 20:33:14,502 | INFO | hr_assistant.pipeline | Building HR assistant...
+2026-09-11 20:33:14,503 | INFO | hr_assistant.vector_store | Checking if vector store exists
+2026-09-11 20:33:16,671 | INFO | httpx | HTTP Request: GET https://c21790e5-cb3c-4bad-98d6-08e14c86d39a.us-west-1-0.aws.cloud.qdrant.io:6333/collections/hr_policy/exists "HTTP/1.1 200 OK"
+2026-09-11 20:33:16,677 | INFO | hr_assistant.pipeline | Vector store already exists. Loading from cloud...
+2026-09-11 20:33:16,677 | INFO | hr_assistant.embeddings | Initializing embedding model jina-embeddings-v2-base-en
+2026-09-11 20:33:16,677 | INFO | hr_assistant.vector_store | Loading vector store from existing collection
+2026-09-11 20:33:18,717 | INFO | httpx | HTTP Request: GET https://c21790e5-cb3c-4bad-98d6-08e14c86d39a.us-west-1-0.aws.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+2026-09-11 20:33:18,779 | INFO | httpx | HTTP Request: GET https://c21790e5-cb3c-4bad-98d6-08e14c86d39a.us-west-1-0.aws.cloud.qdrant.io:6333/collections/hr_policy "HTTP/1.1 200 OK"
+2026-09-11 20:33:23,100 | INFO | hr_assistant.vector_store | Creating retriever with top 3 matches.
+2026-09-11 20:33:23,101 | INFO | hr_assistant.llm | Initializing LLM model through Portkey gateway.
+2026-09-11 20:33:23,101 | INFO | hr_assistant.gateway | Routing LLM calls through Portkey gateway with primary model openai/gpt-oss-20b and fallback model openai/gpt oss 120b.

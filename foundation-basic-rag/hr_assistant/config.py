@@ -17,6 +17,8 @@ class Settings:
     GROQ_API_KEY = os.getenv("GROQ_API_KEY","")
     # Emdedding api key
     JINA_API_KEY = os.getenv("JINA_API_KEY")
+    # Gateway api key
+    PORTKEY_API_KEY = os.getenv("PORTKEY_API_KEY", "")
     # Guard model
     Guard_MODEL_NAME = os.getenv("GUARD_MODEL_NAME", "openai/gpt-oss-safeguard-20b")
     # Data file path
@@ -25,8 +27,14 @@ class Settings:
     VECTOR_STORE_PATH = BASE_DIR / "data" / "basic-rag" / "faiss_index"
     # LLM model name
     LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "openai/gpt-oss-20b")
+    FALLBACK_LLM_MODEL_NAME = os.getenv("FALLBACK_LLM_MODEL_NAME", "openai/gpt oss 120b")
     # Embedding model name
     EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "jina-embeddings-v2-base-en")
+
+    # cloud vector store settings   
+    QDRANT_API_KEY = os.getenv("QDRANT_API_KEY", "")
+    QDRANT_URL = os.getenv("QDRANT_URL", "")
+    QDRANT_COLLECTION_NAME = os.getenv("QDRANT_COLLECTION_NAME", "hr_policy")
 
     # chunk cofig
     CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", 500))

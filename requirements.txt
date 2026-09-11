@@ -13,7 +13,9 @@ langchain-groq
 langchain-text-splitters
 
 # vector store
-faiss-cpu
+# faiss-cpu
+langchain-qdrant
+qdrant-client
 
 # notebook
 jupyter
@@ -21,3 +23,9 @@ ipykernel
 
 # app
 streamlit
+
+# LLM gateways
+portkey-ai
+langchain-openai
+
+# Every gateway -> gives openai compatible code

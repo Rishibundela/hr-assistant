@@ -8,7 +8,6 @@ from .vector_store import (
     build_vector_store,
     get_retriever,
     load_vector_store,
-    save_vector_store,
     vector_store_exists
 )
 from .logger import get_logger
@@ -19,15 +18,14 @@ logger = get_logger(__name__)
 def build_vector_store_for_documents(file_path = settings.DATA_FILE_PATH):
     """Build a vector store for the documents loaded from the specified file path."""
     if vector_store_exists():
-        logger.info("Vector store already exists. Loading from disk...")
+        logger.info("Vector store already exists. Loading from cloud...")
         return load_vector_store()
     logger.info("Vector store does not exist. Building a new one...")
     documents = load_document(file_path)
     split_docs = split_documents(documents)
     logger.info(f"Number of document chunks: {len(split_docs)}")
     vector_store = build_vector_store(split_docs)
-    save_vector_store(vector_store)
-    logger.info("Vector store built and saved to disk for the next time...")
+    logger.info("Qdrant Vector store built and ready to use for next time...")
     return vector_store
 
 def build_hr_assistant(file_path = settings.DATA_FILE_PATH):
