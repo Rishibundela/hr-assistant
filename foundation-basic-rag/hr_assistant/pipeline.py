@@ -36,7 +36,7 @@ def build_hr_assistant(file_path = settings.DATA_FILE_PATH):
     llm = get_llm()
     search_tool = create_search_tool(retriever)
     agent = create_hr_agent(llm, [search_tool])
-    logger.info("HR assistant built successfully and ready to answer questions.")
+    logger.info("HR assistant built successfully and ready to answer your questions.")
     return agent
 
 def ask_assistant(agent, question: str) -> str:

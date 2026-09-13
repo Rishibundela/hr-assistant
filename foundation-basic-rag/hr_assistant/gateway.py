@@ -22,10 +22,32 @@ FALLBACK_TARGET_MODEL = {"provider": "@hrpolicybackup",
 
 # config
 GATEWAY_CONFIG = {
-    "strategy": {
-        "mode": "fallback"
-    },
-    "targets" : [PRIMARY_TARGET_MODEL, FALLBACK_TARGET_MODEL]
+	"strategy": {
+		"mode": "fallback"
+	},
+	"retry": {
+		"attempts": 3,
+		"on_status_codes": [
+			429
+		]
+	},
+	"cache": {
+		"mode": "simple"
+	},
+	"targets": [
+		{
+			"provider": "@hrpolicy",
+			"override_params": {
+				"model": "openai/gpt-oss-20b"
+			}
+		},
+		{
+			"provider": "@hrpolicybackup",
+			"override_params": {
+				"model": "openai/gpt-oss-120b"
+			}
+		}
+	]
 }
 
 def get_gateway_llm() -> ChatOpenAI:
