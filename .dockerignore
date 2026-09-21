@@ -1,0 +1,22 @@
+# Never bake secrets into the image - passed in at "docker run" time instead.
+.env
+.env.docker
+.env.example
+
+# Local dev venv and Python cache - not needed inside the container.
+rbemv/
+.venv/
+__pycache__/
+*.pyc
+
+# Generate at runtime not part of the app itself
+hr_logs/
+
+# not needed to run the app
+.git/
+.gitignore
+notebooks/
+.ipynb_checkpoints/
+README.md
+docs/
+
