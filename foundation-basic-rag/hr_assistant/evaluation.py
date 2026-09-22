@@ -81,7 +81,7 @@ def _get_or_create_dataset(client: Client):
     return dataset
 
 
-def run_evalution():
+def run_evaluation():
     """Upload the evaluation dataset and run correctness and groundedness evaluation for the HR assistant."""
     client = Client()
     dataset = _get_or_create_dataset(client)

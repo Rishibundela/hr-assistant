@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    command: streamlit run ./foundation-basic-rag/app.py --server.address=0.0.0.0
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+
+  eval:
+    build: .
+    working_dir: /app/foundation-basic-rag
+    command: python evaluate.py
+    env_file:
+      - .env
+    profiles:
+      - tools
