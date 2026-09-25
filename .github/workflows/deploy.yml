@@ -1,7 +1,7 @@
 name: deploy
 
 # CI/CD: on every push to main, four gated jobs run in order -
-#   1. test        - smoke-tests ask(agent, question) against the real agent
+#   1. test         - smoke-tests ask(agent, question) against the real agent
 #   2. evaluate     - runs 5 of the 10 LangSmith correctness/groundedness examples (fast CI check)
 #   3. build-and-push - builds the Docker image, pushes it to Amazon ECR
 #   4. deploy       - SSHes into EC2 and restarts the container with the new image
@@ -9,8 +9,7 @@ name: deploy
 # broken agent or a crashing eval run stops the pipeline before anything gets
 # built or deployed. Uses long-lived AWS access keys (stored as GitHub
 # secrets) instead of OIDC, and a regular ubuntu-latest runner that SSHes out
-# to the box - no self-hosted runner needed, no SSM. See
-# docs/09_cicd_aws_ecr_ec2.md and docs/10_advanced_deployment.md for background.
+# to the box - no self-hosted runner needed, no SSM.
 
 on:
   push:
@@ -40,7 +39,9 @@ jobs:
           python-version: "3.11"
 
       - name: Write .env from secret
-        run: printf '%s' "${{ secrets.APP_ENV_FILE }}" > .env
+        run: |
+          printf '%s' "${{ secrets.APP_ENV_FILE }}" > .env
+          cp .env foundation-basic-rag/.env
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -49,7 +50,9 @@ jobs:
         run: uv pip install --system -r requirements.txt
 
       - name: Run smoke test (ask(agent, question))
-        run: python -m pytest tests/ -v
+        env:
+          PYTHONPATH: foundation-basic-rag
+        run: python -m pytest foundation-basic-rag/tests/ -v
 
   evaluate:
     needs: test
@@ -64,7 +67,9 @@ jobs:
           python-version: "3.11"
 
       - name: Write .env from secret
-        run: printf '%s' "${{ secrets.APP_ENV_FILE }}" > .env
+        run: |
+          printf '%s' "${{ secrets.APP_ENV_FILE }}" > .env
+          cp .env foundation-basic-rag/.env
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -75,7 +80,8 @@ jobs:
       - name: Run evaluation suite (5 examples, keeps CI fast)
         env:
           EVAL_LIMIT: "5"
-        run: python evaluate.py
+          PYTHONPATH: foundation-basic-rag
+        run: python foundation-basic-rag/evaluate.py
 
   build-and-push:
     needs: evaluate
@@ -130,8 +136,6 @@ jobs:
           script: |
             set -euo pipefail
 
-            # Install Docker on the box if it isn't there yet - makes a completely
-            # fresh instance deployable with zero manual setup beyond SSH access.
             if ! command -v docker >/dev/null 2>&1; then
               echo "==> Installing Docker"
               sudo apt-get update -y
@@ -139,9 +143,8 @@ jobs:
               sudo systemctl enable --now docker
             fi
 
-            # Install the AWS CLI on the box if it isn't there yet (needed to log into ECR).
             if ! command -v aws >/dev/null 2>&1; then
-              echo "==> Installing AWS CLI v2 (official installer - apt's awscli package isn't reliably available)"
+              echo "==> Installing AWS CLI v2"
               sudo apt-get update -y
               sudo apt-get install -y curl unzip
               curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"

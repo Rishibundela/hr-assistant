@@ -33,3 +33,6 @@ langchain-openai
 # Evalution
 
 openevals
+
+# tests
+pytest
